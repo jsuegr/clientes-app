@@ -4,7 +4,7 @@ export const CLIENTES: Cliente[] = [
 
   {
     "id": 0,
-    "nombre": "Brittany",
+    "nombre": "Juan",
     "apellido": "Ortega",
     "createAt": "2019-11-20T09:53:29 +06:00",
     "email": "brittanyortega@quintity.com"
