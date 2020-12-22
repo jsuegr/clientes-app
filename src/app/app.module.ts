@@ -3,9 +3,19 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ClientesComponent } from './clientes/clientes.component';
+import { DirectivaComponent } from './directiva/directiva.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ClienteService } from './clientes/cliente.service';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+  {path: '', redirectTo: '/clientes', pathMatch: 'full'},
+  {path: 'directivas', component: DirectivaComponent},
+  {path: 'clientes', component: ClientesComponent},
+
+];
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -14,7 +24,8 @@ import { ClienteService } from './clientes/cliente.service';
     FooterComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [ClienteService],
   bootstrap: [AppComponent]
