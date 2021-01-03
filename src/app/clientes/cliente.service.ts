@@ -20,7 +20,7 @@ private httpHeaders =  new HttpHeaders({'content-type': 'application/json'});
   getClientes(): Observable<Cliente[]>{
     //return of(CLIENTE);
 
-    return this. http.get<Cliente[]>(this.urlEndPoint);
+    return this.http.get<Cliente[]>(this.urlEndPoint);
     //tambien se puede ocupar map<>
 
     // return this.http.get(this.urlEndPoint).pipe(
@@ -36,5 +36,9 @@ private httpHeaders =  new HttpHeaders({'content-type': 'application/json'});
 
   getCliente(id:number):Observable<Cliente>{
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`);
+  }
+
+  update(cliente:Cliente): Observable<Cliente>{
+    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders});
   }
 }
