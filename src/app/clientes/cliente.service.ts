@@ -32,7 +32,13 @@ private httpHeaders =  new HttpHeaders({'content-type': 'application/json'});
 
 
   create(cliente: Cliente): Observable<Cliente>{
-    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers:this.httpHeaders} );
+    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers:this.httpHeaders} ).pipe(
+      catchError(e => {
+        console.log(e.error.mensaje);
+        Swal.fire(e.error.mensaje, e.error.error, 'error');
+        return throwError(e);
+      })
+    );
   }
 
   getCliente(id:number):Observable<Cliente>{
@@ -40,17 +46,31 @@ private httpHeaders =  new HttpHeaders({'content-type': 'application/json'});
       catchError( e => {
         this.router.navigate(['/clientes']);
         console.error(e.error.mensaje);
-        Swal.fire('Error al editar', e.error.mensaje, 'error');
+        Swal.fire('Error al consultar el cliente.', e.error.mensaje, 'error');
         return throwError(e);
       })
     );
   }
 
   update(cliente:Cliente): Observable<Cliente>{
-    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders});
+    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
+      catchError( e => {
+        this.router.navigate(['/clientes']);
+        console.error(e.error.mensaje);
+        Swal.fire(e.error.mensaje, e.error.error, 'error');
+        return throwError(e);
+      })
+    );
   }
 
   delete (id:number): Observable<Cliente>{
-    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, {headers:this.httpHeaders});
+    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, {headers:this.httpHeaders}).pipe(
+      catchError( e => {
+        this.router.navigate(['/clientes']);
+        console.error(e.error.mensaje);
+        Swal.fire(e.error.mensaje, e.error.error, 'error');
+        return throwError(e);
+      })
+    );
   }
 }
