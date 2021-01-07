@@ -31,8 +31,8 @@ private httpHeaders =  new HttpHeaders({'content-type': 'application/json'});
 
 
 
-  create(cliente: Cliente): Observable<Cliente>{
-    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers:this.httpHeaders} ).pipe(
+  create(cliente: Cliente): Observable<any>{
+    return this.http.post<any>(this.urlEndPoint, cliente, {headers:this.httpHeaders} ).pipe(
       catchError(e => {
         console.log(e.error.mensaje);
         Swal.fire(e.error.mensaje, e.error.error, 'error');
@@ -53,12 +53,14 @@ private httpHeaders =  new HttpHeaders({'content-type': 'application/json'});
   }
 
   update(cliente:Cliente): Observable<Cliente>{
-    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
-      catchError( e => {
-        this.router.navigate(['/clientes']);
-        console.error(e.error.mensaje);
-        Swal.fire(e.error.mensaje, e.error.error, 'error');
-        return throwError(e);
+    return this.http.put(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.httpHeaders}).pipe(
+        map( (response:any)  => response.cliente as Cliente), //Los operadores se separan por coma
+        catchError(
+          e => {
+          this.router.navigate(['/clientes']);
+          console.error(e.error.mensaje);
+          Swal.fire(e.error.mensaje, e.error.error, 'error');
+          return throwError(e);
       })
     );
   }
